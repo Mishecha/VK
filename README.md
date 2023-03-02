@@ -21,12 +21,12 @@ https://oauth.vk.com/authorize?client_id={ВАШ_КЛИЕНТ_ID}&display=page&s
 
 После вставьте access_token в .env. В env нужно написать так:
 ```
-ACCESS_TOKEN=token
+VK_ACCESS_TOKEN=token
 ```
 
 Узнать group_id можно [здесь](https://regvk.com/id/). После вставьте токен group_id в .env. В env нужно написать так:
 ```
-GROUP_ID=-token
+VK_GROUP_ID=-token
 ```
 ## Запуск кода
 Для того чтобы код работал, надо открыть терминал, написать cd и путь до вашего проекта. Для скачивания и отправки комиксов в VK нужно написать:
