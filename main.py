@@ -22,9 +22,9 @@ def get_comic(params=None):
     response = requests.get(random_url_comic, params=params)
     response.raise_for_status()
 
-    data_comics = response.json()
-    comic_img = data_comics['img']
-    comic_alt = data_comics['alt']
+    response_comic = response.json()
+    comic_img = response_comic['img']
+    comic_alt = response_comic['alt']
     download_image(comic_img, 'comics.jpeg')
     return comic_alt
 
