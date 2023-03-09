@@ -11,7 +11,7 @@ def download_image(comics_url, file_path, params1=''):
         file.write(response.content)
 
 
-def comic(params=None):
+def get_comic(params=None):
     comic_url = 'https://xkcd.com/info.0.json'
     response = requests.get(comic_url, params=params)
     response.raise_for_status()
@@ -80,7 +80,7 @@ def save_comic(vk_access_token, owner_id, photo_id, alt, group_id):
 
 
 def main():
-    comic_alt = comic()
+    comic_alt = get_comic()
     load_dotenv()
     vk_access_token = os.environ['VK_ACCESS_TOKEN']
     vk_group_id = os.environ['VK_GROUP_ID']
