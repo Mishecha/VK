@@ -4,22 +4,22 @@ from dotenv import load_dotenv
 from random import randint
 
 
-def download_image(comics_url, file_path, params1=''):
-    response = requests.get(comics_url, params=params1)
+def download_image(comics_url, file_path):
+    response = requests.get(comics_url)
     response.raise_for_status()
     with open(file_path, 'wb') as file:
         file.write(response.content)
 
 
-def get_comic(params=None):
+def get_comic():
     comic_url = 'https://xkcd.com/info.0.json'
-    response = requests.get(comic_url, params=params)
+    response = requests.get(comic_url)
     response.raise_for_status()
 
     current_comic_num = response.json()['num']
     random_number = randint(1, current_comic_num)
     random_url_comic = f'https://xkcd.com/{random_number}/info.0.json'
-    response = requests.get(random_url_comic, params=params)
+    response = requests.get(random_url_comic)
     response.raise_for_status()
 
     response_comic = response.json()
