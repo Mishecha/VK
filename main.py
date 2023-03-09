@@ -84,11 +84,15 @@ def main():
     load_dotenv()
     vk_access_token = os.environ['VK_ACCESS_TOKEN']
     vk_group_id = os.environ['VK_GROUP_ID']
-    upload_url = get_upload_url(vk_access_token)
-    photo_hash, params_photo, photo_server = upload_image(upload_url, 'comics.jpeg')
-    photo_id, owner_id = save_to_albumn(vk_access_token, params_photo, photo_hash, photo_server)
-    save_comic(vk_access_token, owner_id, photo_id, comic_alt, vk_group_id)
-    os.remove("comics.jpeg")
+    try:
+        upload_url = get_upload_url(vk_access_token)
+        photo_hash, params_photo, photo_server = upload_image(upload_url, 'comics.jpeg')
+        photo_id, owner_id = save_to_albumn(vk_access_token, params_photo, photo_hash, photo_server)
+        save_comic(vk_access_token, owner_id, photo_id, comic_alt, vk_group_id)
+    except requests.exceptions.HTTPError:
+        print('Ошибка при запросе к ВК')
+    finally:
+        os.remove("comics.jpeg")
 
 
 if __name__ == "__main__":
