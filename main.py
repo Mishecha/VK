@@ -51,14 +51,14 @@ def get_upload_url(vk_access_token):
     return response.json()['response']['upload_url']
 
 
-def save_comic_to_albumn(vk_access_token, photo, hash, server):
+def save_comic_to_albumn(vk_access_token, photo, photo_hash, photo_server):
     comic_url = 'https://api.vk.com/method/photos.saveWallPhoto'
     payload  = {
       'v' : 5.131,
       'access_token' : vk_access_token,
-      'server' : server,
+      'server' : photo_server,
       'photo' : photo,
-      'hash' : hash
+      'hash' : photo_hash
     }
     response = requests.get(comic_url, params=payload)
     response.raise_for_status()
