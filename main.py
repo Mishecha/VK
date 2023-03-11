@@ -36,7 +36,8 @@ def upload_image(url_comic, file_path):
         }
         response = requests.post(url_comic, files=files)
     response.raise_for_status()
-    return response.json()['hash'], response.json()['photo'], response.json()['server']
+    response = response.json()
+    return response['hash'], response['photo'], response['server']
 
 
 def get_upload_url(vk_access_token):
@@ -50,7 +51,7 @@ def get_upload_url(vk_access_token):
     return response.json()['response']['upload_url']
 
 
-def save_to_albumn(vk_access_token, photo, hash, server):
+def save_comic_to_albumn(vk_access_token, photo, hash, server):
     comic_url = 'https://api.vk.com/method/photos.saveWallPhoto'
     payload  = {
       'v' : 5.131,
@@ -61,10 +62,11 @@ def save_to_albumn(vk_access_token, photo, hash, server):
     }
     response = requests.get(comic_url, params=payload)
     response.raise_for_status()
-    return response.json()['response'][0]['id'], response.json()['response'][0]['owner_id']
+    response = response.json()
+    return response['response'][0]['id'], response['response'][0]['owner_id']
 
 
-def save_comic(vk_access_token, owner_id, photo_id, alt, group_id):
+def save_comic_to_wall(vk_access_token, owner_id, photo_id, alt, group_id):
     comic_url = 'https://api.vk.com/method/wall.post'
     payload  = {
       'v' : 5.131,
@@ -87,10 +89,10 @@ def main():
     try:
         upload_url = get_upload_url(vk_access_token)
         photo_hash, params_photo, photo_server = upload_image(upload_url, 'comics.jpeg')
-        photo_id, owner_id = save_to_albumn(vk_access_token, params_photo, photo_hash, photo_server)
-        save_comic(vk_access_token, owner_id, photo_id, comic_alt, vk_group_id)
+        photo_id, owner_id = save_comic_to_albumn(vk_access_token, params_photo, photo_hash, photo_server)
+        save_comic_to_wall(vk_access_token, owner_id, photo_id, comic_alt, vk_group_id)
     except requests.exceptions.HTTPError:
-        print('Ошибка при запросе к ВК')
+        print('Ошибка при запросе к вк')
     finally:
         os.remove("comics.jpeg")
 
