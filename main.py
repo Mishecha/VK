@@ -37,6 +37,7 @@ def upload_image(url_comic, file_path):
         response = requests.post(url_comic, files=files)
     response.raise_for_status()
     response = response.json()
+    check_response(response)
     return response['hash'], response['photo'], response['server']
 
 
@@ -48,7 +49,9 @@ def get_upload_url(vk_access_token):
     }
     response = requests.get(url, params=payload)
     response.raise_for_status()
-    return response.json()['response']['upload_url']
+    response = response.json()
+    check_response(response)
+    return response['response']['upload_url']
 
 
 def save_comic_to_albumn(vk_access_token, photo, photo_hash, photo_server):
@@ -63,6 +66,7 @@ def save_comic_to_albumn(vk_access_token, photo, photo_hash, photo_server):
     response = requests.get(comic_url, params=payload)
     response.raise_for_status()
     response = response.json()
+    check_response(response)
     return response['response'][0]['id'], response['response'][0]['owner_id']
 
 
@@ -78,7 +82,14 @@ def save_comic_to_wall(vk_access_token, owner_id, photo_id, alt, group_id):
     }
     response = requests.get(comic_url, params=payload)
     response.raise_for_status()
-    return response.json()
+    response = response.json()
+    check_response(response)
+    return response
+
+
+def check_response(response_content):
+    if response_content.get('error'):
+        raise requests.exceptions.HTTPError
 
 
 def main():
