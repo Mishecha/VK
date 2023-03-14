@@ -18,13 +18,13 @@ def get_comic():
 
     current_comic_num = response.json()['num']
     random_number = randint(1, current_comic_num)
-    random_url_comic = f'https://xkcd.com/{random_number}/info.0.json'
-    response = requests.get(random_url_comic)
+    url_random_comic = f'https://xkcd.com/{random_number}/info.0.json'
+    response = requests.get(url_random_comic)
     response.raise_for_status()
 
-    response_comic = response.json()
-    comic_img = response_comic['img']
-    comic_alt = response_comic['alt']
+    comic_response = response.json()
+    comic_img = comic_response['img']
+    comic_alt = comic_response['alt']
     download_image(comic_img, 'comics.jpeg')
     return comic_alt
 
