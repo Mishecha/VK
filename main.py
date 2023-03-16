@@ -18,8 +18,8 @@ def get_comic():
 
     current_comic_num = response.json()['num']
     random_number = randint(1, current_comic_num)
-    url_random_comic = f'https://xkcd.com/{random_number}/info.0.json'
-    response = requests.get(url_random_comic)
+    random_comic_url = f'https://xkcd.com/{random_number}/info.0.json'
+    response = requests.get(random_comic_url)
     response.raise_for_status()
 
     comic_response = response.json()
