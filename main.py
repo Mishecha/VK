@@ -54,7 +54,7 @@ def get_upload_url(vk_access_token):
     return response['response']['upload_url']
 
 
-def publish_comic_to_albumn(vk_access_token, photo, photo_hash, photo_server):
+def save_comic_to_albumn(vk_access_token, photo, photo_hash, photo_server):
     comic_url = 'https://api.vk.com/method/photos.saveWallPhoto'
     payload  = {
       'v' : 5.131,
@@ -70,7 +70,7 @@ def publish_comic_to_albumn(vk_access_token, photo, photo_hash, photo_server):
     return response['response'][0]['id'], response['response'][0]['owner_id']
 
 
-def save_comic_to_wall(vk_access_token, owner_id, photo_id, alt, group_id):
+def publish_comic_to_wall(vk_access_token, owner_id, photo_id, alt, group_id):
     comic_url = 'https://api.vk.com/method/wall.post'
     payload  = {
       'v' : 5.131,
@@ -101,7 +101,7 @@ def main():
         upload_url = get_upload_url(vk_access_token)
         photo_hash, params_photo, photo_server = upload_image(upload_url, 'comics.jpeg')
         photo_id, owner_id = save_comic_to_albumn(vk_access_token, params_photo, photo_hash, photo_server)
-        save_comic_to_wall(vk_access_token, owner_id, photo_id, comic_alt, vk_group_id)
+        publish_comic_to_wall(vk_access_token, owner_id, photo_id, comic_alt, vk_group_id)
     except requests.exceptions.HTTPError:
         print('Ошибка при запросе к вк')
     finally:
